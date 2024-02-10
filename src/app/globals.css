@@ -1,3 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=Protest+Revolution&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Goloba variables */
+:root {
+  --bg: #0d0c22;
+  --text: white;
+  --bgSoft: #2d2b42;
+  --textSoft: #e5e5e5;
+  --btn: #3673fd;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  color: var(--text);
+  background-color: var(--bg);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: 1536px;
+  margin: auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (max-width: 1536px) {
+  .container {
+    width: 1366px;
+  }
+}
+@media (max-width: 1366px) {
+  .container {
+    width: 1280px;
+  }
+}
+@media (max-width: 1280px) {
+  .container {
+    width: 1180px;
+  }
+}
+@media (max-width: 1024) {
+  .container {
+    width: 868px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    width: 680px;
+  }
+}
+@media (max-width: 640px) {
+  .container {
+    width: 565px;
+  }
+}
