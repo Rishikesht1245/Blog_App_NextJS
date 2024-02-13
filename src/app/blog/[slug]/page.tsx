@@ -1,8 +1,20 @@
 // Single Post page
 import Image from "next/image";
 import styles from "./singlePost.module.css";
+import PostUser from "@/components/postUser/PostUser";
+import { Suspense } from "react";
 
-export default function SinglePostPage() {
+// const getData = async (id: number) => {
+//   const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+//   if (!res.ok) {
+//     throw new Error("Something went wrong");
+//   }
+//   const data = await res.json();
+//   return data;
+// };
+
+export default async function SinglePostPage({ params }: { params: any }) {
+  // const post = await getData(Number(params?.slug)!);
   return (
     <div className={styles.container}>
       <div className={styles.imageContainer}>
@@ -23,27 +35,21 @@ export default function SinglePostPage() {
             height={40}
             className={styles.avatar}
           />
-          <div className={styles.detailText}>
-            <span className={styles.detailTitle}>Author</span>
-            <span className={styles.detailValue}>User name</span>
-          </div>
+          <Suspense fallback={<div>Loading</div>}>
+            <PostUser userId={1} />
+          </Suspense>
           <div className={styles.detailText}>
             <span className={styles.detailTitle}>Published</span>
             <span className={styles.detailValue}>19-11-2000</span>
           </div>
         </div>
         <div className={styles.content}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          repellat iure quam, voluptas ipsa at ullam temporibus omnis quidem,
-          porro laborum voluptatem molestiae eveniet possimus ducimus odio
-          harum, qui aperiam saepe unde. Dolorem hic fugiat minus non sed dolore
-          qui nemo omnis quos delectus excepturi, dicta iusto nihil a? Eos ipsam
-          dolores, esse quis eaque deserunt error excepturi ducimus voluptates
-          porro beatae. In quia, asperiores dignissimos voluptatibus dicta
-          pariatur! Deserunt voluptates cum voluptatibus adipisci molestias quo
-          nobis laboriosam non sapiente culpa eius cupiditate perspiciatis
-          ipsam, ea corrupti, aperiam iusto consequatur tenetur voluptate
-          nesciunt doloribus dolores ipsa. Consequatur in eius aliquam!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+          praesentium tenetur. Suscipit totam ratione possimus, id enim
+          obcaecati necessitatibus provident? Unde harum aliquid numquam,
+          tenetur magnam nemo, optio quaerat est rem temporibus possimus rerum
+          inventore neque dignissimos quidem debitis omnis! Voluptates mollitia
+          fugiat voluptatum adipisci ad aspernatur perferendis itaque molestias!
         </div>
       </div>
     </div>
