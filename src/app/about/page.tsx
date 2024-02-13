@@ -1,5 +1,11 @@
 import Image from "next/image";
 import styles from "./about.module.css";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blogify About Page",
+  description: "The perfect app for blogging",
+};
 
 const AboutPage = () => {
   return (
