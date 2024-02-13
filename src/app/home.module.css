@@ -51,3 +51,9 @@
   position: relative;
   flex: 1;
 }
+
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+  }
+}

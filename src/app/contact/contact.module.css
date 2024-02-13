@@ -46,3 +46,9 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+  }
+}

@@ -26,7 +26,7 @@ const PostCard = () => {
           consequatur ut voluptatibus deleniti est inventore? Quidem neque nisi
           ea facere laudantium eum.
         </p>
-        <Link className={styles.link} href={"/blog/post"}>
+        <Link className={styles.link} href={"/blog/1"}>
           Read More
         </Link>
       </div>

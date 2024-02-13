@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import NavLink from "./navLink/navLink";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
 import { IoCloseSharp } from "react-icons/io5";
@@ -38,18 +38,30 @@ const Links = () => {
       {/* Links */}
       <div className={styles.links}>
         {links?.map((link) => (
-          <NavLink link={link} key={link.title} />
+          <NavLink
+            link={link}
+            key={link.title}
+            onClick={() => setOpen((prev) => !prev)}
+          />
         ))}
 
         {session ? (
           <>
-            {isAdmin && <NavLink link={{ title: "Admin", path: "/admin" }} />}
+            {isAdmin && (
+              <NavLink
+                link={{ title: "Admin", path: "/admin" }}
+                onClick={() => setOpen((prev) => !prev)}
+              />
+            )}
             <button className={styles.logout}>
               <IoMdLogOut className="text-[20px]" />
             </button>
           </>
         ) : (
-          <NavLink link={{ title: "Login", path: "/login" }} />
+          <NavLink
+            link={{ title: "Login", path: "/login" }}
+            onClick={() => setOpen((prev) => !prev)}
+          />
         )}
       </div>
 
@@ -63,17 +75,29 @@ const Links = () => {
       {open && (
         <div className={styles.mobileLinks}>
           {links?.map((link) => (
-            <NavLink link={link} key={link.title} />
+            <NavLink
+              link={link}
+              key={link.title}
+              onClick={() => setOpen((prev) => !prev)}
+            />
           ))}
           {session ? (
             <>
-              {isAdmin && <NavLink link={{ title: "Admin", path: "/admin" }} />}
+              {isAdmin && (
+                <NavLink
+                  link={{ title: "Admin", path: "/admin" }}
+                  onClick={() => setOpen((prev) => !prev)}
+                />
+              )}
               <button className={styles.logout}>
                 <IoMdLogOut className="text-[20px]" />
               </button>
             </>
           ) : (
-            <NavLink link={{ title: "Login", path: "/login" }} />
+            <NavLink
+              link={{ title: "Login", path: "/login" }}
+              onClick={() => setOpen((prev) => !prev)}
+            />
           )}
         </div>
       )}
