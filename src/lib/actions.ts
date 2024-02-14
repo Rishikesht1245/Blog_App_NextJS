@@ -1,8 +1,9 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { Post } from "./models";
+import { Post, User } from "./models";
 import { connectToDb } from "./utils";
 import { signIn, signOut } from "./auth";
+import bcrypt from "bcrypt";
 
 export const addPost = async (formData: any) => {
   const { title, description, slug, userId } = Object.fromEntries(formData);
@@ -47,4 +48,28 @@ export const handleGitHubLogin = async () => {
 export const handleLogout = async () => {
   "use server";
   await signOut();
+};
+
+export const registerUser = async (formData: any) => {
+  const { username, email, password, passwordRepeat } =
+    Object.fromEntries(formData);
+  if (password !== passwordRepeat) return "Password doesn't match";
+
+  connectToDb();
+  const userExists = await User.findOne({ username });
+
+  if (userExists) {
+    return "User already exists";
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const newUser = new User({
+    username,
+    email,
+    password: hashedPassword,
+  });
+
+  await newUser.save();
+  console.log("User added successfully");
 };
