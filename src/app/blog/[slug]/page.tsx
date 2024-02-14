@@ -15,11 +15,23 @@ export const generateMetadata = async ({ params }: { params: any }) => {
     description: post.description.slice(0, 10),
   };
 };
+
+// FETCHING DATA USING API
+const getData = async (slug: string) => {
+  const res = await fetch(`http://localhost:3000/api/blog/${slug}`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  const data = await res.json();
+  return data;
+};
 export default async function SinglePostPage({ params }: { params: any }) {
-  // const post = await getData(Number(params?.slug)!);
+  const post = await getData(params?.slug);
 
   //FETCHING DATA WITHOUT API
-  const post = await getPost(params?.slug!);
+  // const post = await getPost(params?.slug!);
   return (
     <div className={styles.container}>
       {post.img && (

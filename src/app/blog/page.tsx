@@ -5,7 +5,7 @@ import { Metadata } from "next";
 
 // FETCHING DATA USING API
 const getData = async () => {
-  const res = await fetch("https://fakestoreapi.com/products", {
+  const res = await fetch("http://localhost:3000/api/blog", {
     next: { revalidate: 3600 },
   });
   if (!res.ok) {
@@ -21,10 +21,10 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  // const posts = await getData();
+  const posts = await getData();
 
   // FETCHING DATA WITHOUT API
-  const posts = await getPosts();
+  // const posts = await getPosts();
   return (
     <div className={styles.container}>
       {posts?.map((post: any) => (

@@ -1,3 +1,11 @@
-export default function LoginPage() {
-  return <h1>Login Page</h1>;
+import { handleGitHubLogin } from "@/lib/actions";
+
+export default async function LoginPage() {
+  return (
+    <div>
+      <form action={handleGitHubLogin}>
+        <button>Login with Github</button>
+      </form>
+    </div>
+  );
 }

@@ -18,8 +18,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: 6,
     },
     img: {
       type: String,
@@ -61,5 +59,6 @@ const postSchema = new Schema(
 
 //Checking if collection already exists before creating the collection
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
-export const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
+export const User =
+  mongoose?.models?.User || mongoose.model("User", userSchema);
+export const Post = mongoose.models?.Post || mongoose.model("Post", postSchema);
