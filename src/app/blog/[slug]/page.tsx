@@ -4,17 +4,17 @@ import styles from "./singlePost.module.css";
 import PostUser from "@/components/postUser/PostUser";
 import { Suspense } from "react";
 import { getPost } from "@/lib/data";
+import { Metadata } from "next";
 
-// Fetch data with API
-// const getData = async (id: number) => {
-//   const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-//   if (!res.ok) {
-//     throw new Error("Something went wrong");
-//   }
-//   const data = await res.json();
-//   return data;
-// };
+//generate metadata function for dynamic meta data
+export const generateMetadata = async ({ params }: { params: any }) => {
+  const post = await getPost(params?.slug!);
 
+  return {
+    title: post.title,
+    description: post.description.slice(0, 10),
+  };
+};
 export default async function SinglePostPage({ params }: { params: any }) {
   // const post = await getData(Number(params?.slug)!);
 

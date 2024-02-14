@@ -3,7 +3,7 @@ import styles from "./about.module.css";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blogify About Page",
+  title: "About Page",
   description: "The perfect app for blogging",
 };
 
@@ -13,7 +13,7 @@ const AboutPage = () => {
       <div className={styles.textContainer}>
         <h2 className={styles.subtitle}>About BlogiFy</h2>
         <h1 className={styles.title}>
-          We Create digital ides that are bigger, bolder, braver and better
+          We Create digital ideas that are bigger, bolder, braver and better
         </h1>
         <p className={styles.para}>
           Welcome to our blog app, your go-to destination for insightful content

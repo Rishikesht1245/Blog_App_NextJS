@@ -8,7 +8,10 @@ import Footer from "@/components/footer/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Blogify",
+  title: {
+    default: "BlogiFy Homepage",
+    template: "%s | BlogiFy",
+  },
   description: "The perfect app for blogging",
 };
 

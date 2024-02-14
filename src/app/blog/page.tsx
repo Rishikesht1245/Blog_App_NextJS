@@ -1,6 +1,7 @@
 import PostCard from "@/components/postCard/PostCard";
 import styles from "./blog.module.css";
 import { getPosts } from "@/lib/data";
+import { Metadata } from "next";
 
 // FETCHING DATA USING API
 const getData = async () => {
@@ -13,6 +14,12 @@ const getData = async () => {
   const data = await res.json();
   return data;
 };
+
+export const metadata: Metadata = {
+  title: "Blog page",
+  description: "The perfect app for blogging",
+};
+
 export default async function BlogPage() {
   // const posts = await getData();
 

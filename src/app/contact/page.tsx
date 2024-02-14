@@ -3,7 +3,7 @@ import styles from "./contact.module.css";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blogify Contact Page",
+  title: "Contact page",
   description: "The perfect app for blogging",
 };
 
