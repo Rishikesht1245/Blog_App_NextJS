@@ -50,26 +50,45 @@ export const handleLogout = async () => {
   await signOut();
 };
 
-export const registerUser = async (formData: any) => {
+export const registerUser = async (prevState: any, formData: any) => {
   const { username, email, password, passwordRepeat } =
     Object.fromEntries(formData);
-  if (password !== passwordRepeat) return "Password doesn't match";
+  if (password !== passwordRepeat) return { error: "Password doesn't match" };
+  try {
+    connectToDb();
+    const userExists = await User.findOne({ username });
 
-  connectToDb();
-  const userExists = await User.findOne({ username });
+    if (userExists) {
+      return { error: "Username already exists" };
+    }
 
-  if (userExists) {
-    return "User already exists";
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+    return { success: true };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error in User adding");
   }
+};
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const newUser = new User({
-    username,
-    email,
-    password: hashedPassword,
-  });
+export const loginUser = async (formData: any) => {
+  const { username, password } = Object.fromEntries(formData);
 
-  await newUser.save();
-  console.log("User added successfully");
+  try {
+    await signIn("credentials", { username, password });
+  } catch (err: any) {
+    console.log(err);
+
+    if (err?.message?.includes("CredentialsSignin")) {
+      return { error: "Invalid username or password" };
+    }
+    throw err;
+  }
 };
