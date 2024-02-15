@@ -36,7 +36,7 @@ export const getUser = async (userId: number) => {
   }
 };
 
-export const getUsers = async (userId: number) => {
+export const getUsers = async () => {
   try {
     connectToDb();
     const users = await User.find();

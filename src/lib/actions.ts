@@ -6,7 +6,8 @@ import { signIn, signOut } from "./auth";
 import bcrypt from "bcrypt";
 
 export const addPost = async (prevState: any, formData: any) => {
-  const { title, description, slug, userId } = Object.fromEntries(formData);
+  const { title, description, slug, userId, img } =
+    Object.fromEntries(formData);
 
   connectToDb();
   //saving to DB
@@ -16,6 +17,7 @@ export const addPost = async (prevState: any, formData: any) => {
       description,
       slug,
       userId,
+      img,
     });
 
     await newPost.save();
@@ -24,6 +26,7 @@ export const addPost = async (prevState: any, formData: any) => {
     console.log("Post saved successfully");
   } catch (error) {
     console.log("Error while adding new post :", error);
+    return { error: "Something went wrong" };
   }
 };
 
@@ -45,16 +48,19 @@ export const addUser = async (prevState: any, formData: any) => {
     console.log("User added successfully");
   } catch (error) {
     console.log("Error while adding new user :", error);
+    return { error: "Something went wrong!" };
   }
 };
 
-export const deletePost = async (prevState: any, formData: any) => {
+export const deletePost = async (formData: any) => {
   const { id } = Object.fromEntries(formData);
 
   connectToDb();
   //saving to DB
   try {
     await Post.findByIdAndDelete(id);
+    // On deleting post it will revalidate the admin path, means again fetch the data don't use the cached data
+    // revalidating data on next page visit
     revalidatePath("/blog");
     revalidatePath("/admin");
     console.log("Post deleted successfully");
@@ -63,7 +69,7 @@ export const deletePost = async (prevState: any, formData: any) => {
   }
 };
 
-export const deleteUser = async (prevState: any, formData: any) => {
+export const deleteUser = async (formData: any) => {
   const { id } = Object.fromEntries(formData);
 
   connectToDb();
@@ -121,8 +127,8 @@ export const loginUser = async (prevState: any, formData: any) => {
   const { username, password } = Object.fromEntries(formData);
 
   try {
+    // We need to provide the credentials here it will reach in provider
     const user = await signIn("credentials", { username, password });
-    console.log(user, "user from login");
     return { success: true };
   } catch (err: any) {
     console.log(err);

@@ -3,6 +3,7 @@ export const authConfig = {
     signIn: "/login",
   },
   providers: [],
+  //The call backs will works as the same way as promise chaining works
   callbacks: {
     async jwt({ token, user }: { token: any; user: any }) {
       if (user && !user?.error) {

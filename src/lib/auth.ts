@@ -62,7 +62,6 @@ export const {
     }): Promise<boolean> {
       //Modifying the Sign in method to save data in DB if user is signing for the first time using github
       try {
-        console.log(params?.account?.provider);
         if (params?.account?.provider === "github") {
           connectToDb();
 
