@@ -5,7 +5,7 @@ import { connectToDb } from "./utils";
 import { signIn, signOut } from "./auth";
 import bcrypt from "bcrypt";
 
-export const addPost = async (formData: any) => {
+export const addPost = async (prevState: any, formData: any) => {
   const { title, description, slug, userId } = Object.fromEntries(formData);
 
   connectToDb();
@@ -20,13 +20,35 @@ export const addPost = async (formData: any) => {
 
     await newPost.save();
     revalidatePath("/blog");
+    revalidatePath("/admin");
     console.log("Post saved successfully");
   } catch (error) {
     console.log("Error while adding new post :", error);
   }
 };
 
-export const deletePost = async (formData: any) => {
+export const addUser = async (prevState: any, formData: any) => {
+  const { username, email, password, img } = Object.fromEntries(formData);
+
+  connectToDb();
+  //saving to DB
+  try {
+    const newUser = new User({
+      username,
+      email,
+      password,
+      img,
+    });
+
+    await newUser.save();
+    revalidatePath("/admin");
+    console.log("User added successfully");
+  } catch (error) {
+    console.log("Error while adding new user :", error);
+  }
+};
+
+export const deletePost = async (prevState: any, formData: any) => {
   const { id } = Object.fromEntries(formData);
 
   connectToDb();
@@ -34,9 +56,26 @@ export const deletePost = async (formData: any) => {
   try {
     await Post.findByIdAndDelete(id);
     revalidatePath("/blog");
+    revalidatePath("/admin");
     console.log("Post deleted successfully");
   } catch (error) {
-    console.log("Error while adding new post :", error);
+    console.log("Error while deleting post :", error);
+  }
+};
+
+export const deleteUser = async (prevState: any, formData: any) => {
+  const { id } = Object.fromEntries(formData);
+
+  connectToDb();
+  //saving to DB
+  try {
+    await Post.deleteMany({ userId: id });
+    await User.findByIdAndDelete(id);
+
+    revalidatePath("/admin");
+    console.log("User and posts deleted successfully");
+  } catch (error) {
+    console.log("Error while deleting User :", error);
   }
 };
 
@@ -78,11 +117,13 @@ export const registerUser = async (prevState: any, formData: any) => {
   }
 };
 
-export const loginUser = async (formData: any) => {
+export const loginUser = async (prevState: any, formData: any) => {
   const { username, password } = Object.fromEntries(formData);
 
   try {
-    await signIn("credentials", { username, password });
+    const user = await signIn("credentials", { username, password });
+    console.log(user, "user from login");
+    return { success: true };
   } catch (err: any) {
     console.log(err);
 

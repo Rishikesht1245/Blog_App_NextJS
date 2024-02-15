@@ -47,7 +47,7 @@ const Links = ({ session }: { session: any }) => {
           />
         ))}
 
-        {session ? (
+        {session && !session?.error ? (
           <>
             {session?.user?.isAdmin && (
               <NavLink

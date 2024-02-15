@@ -4,6 +4,7 @@ import { connectToDb } from "./utils";
 import { User as Users } from "./models";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import { authConfig } from "./auth.config";
 
 // Function to login using credentials
 const login = async (credentials: any) => {
@@ -11,14 +12,14 @@ const login = async (credentials: any) => {
     connectToDb();
     const user = await Users.findOne({ username: credentials.username });
 
-    if (!user) throw new Error("Wrong credentials!");
+    if (!user) return { error: "Wrong credentials!" };
 
     const isPasswordCorrect = await bcrypt.compare(
       credentials.password,
       user.password
     );
 
-    if (!isPasswordCorrect) throw new Error("Wrong credentials!");
+    if (!isPasswordCorrect) return { error: "Wrong credentials!" };
 
     return user;
   } catch (err) {
@@ -32,6 +33,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  ...authConfig,
   providers: [
     GitHub({
       clientId: process.env.GITHUB_ID,
@@ -39,9 +41,12 @@ export const {
     }),
     // Signin using user credentials and password
     CredentialsProvider({
+      //credentials contains the data which we provided while invoking singIn method with credentials as provider
       async authorize(credentials: any): Promise<any> {
         try {
+          //Calling the login function defined in top
           const user = await login(credentials);
+          //What ever we return from here will be caught by the authconfig.callback and inside the jwt function
           return user;
         } catch (err) {
           return null;
@@ -55,6 +60,7 @@ export const {
       account: Account | null;
       profile?: Profile | undefined;
     }): Promise<boolean> {
+      //Modifying the Sign in method to save data in DB if user is signing for the first time using github
       try {
         console.log(params?.account?.provider);
         if (params?.account?.provider === "github") {
@@ -80,5 +86,6 @@ export const {
         return false;
       }
     },
+    ...authConfig.callbacks,
   },
 });
